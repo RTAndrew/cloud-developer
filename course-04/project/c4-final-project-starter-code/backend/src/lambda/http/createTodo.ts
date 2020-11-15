@@ -14,6 +14,9 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
   const newTodo: CreateTodoRequest = JSON.parse(event.body)
   const userId = getUserId(event)
 
+  if (!newTodo.name)
+    throw new Error("You have to insert the todo's name");
+
   logger.info(`user ${userId} is CREATING new todo ${newTodo}`)
   const newTodoItem = await createTodo(userId, newTodo)
 
