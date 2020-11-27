@@ -76,6 +76,39 @@ functions:
           authorizer: Auth
           cors: true
 
+  GetPhotoById:
+    handler: src/lambda/http/getPhotoById.handler
+    iamRoleStatementsName: Get-Photo-By-Id
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PHOTOS_TABLE}
+      - Effect: Allow
+        Action:
+          - s3:GetObject
+        Resource: arn:aws:s3:::${self:provider.environment.IMAGES_BUCKET}/*
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PHOTOS_TABLE}/index/${self:provider.environment.CREATED_AT_INDEX}
+      - Effect: Allow
+        Action:
+          - xray:PutTraceSegments
+        Resource: "*"
+      - Effect: Allow
+        Action:
+          - logs:CreateLogStream
+          - logs:CreateLogGroup
+          - logs:PutLogEvents
+        Resource: "*"
+    events:
+      - http:
+          method: get
+          path: photos/{photoId}
+          authorizer: Auth
+          cors: true
+
   CreatePhoto:
     handler: src/lambda/http/createPhoto.handler
     iamRoleStatementsName: Create-Photo
