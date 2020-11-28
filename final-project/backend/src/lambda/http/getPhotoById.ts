@@ -15,7 +15,7 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
 
   const result = await getPhotoById(userId, photoId)
 
-  if (result.Count === 0) {
+  if (result.length === 0) {
     logger.warn(`user ${userId} requesting non exists PHOTO: ${photoId}`)
     return {
       statusCode: 400,
@@ -32,7 +32,7 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
       'Access-Control-Allow-Credentials': true
     },
     body: JSON.stringify({
-      items: result.Items[0]
+      items: result
     })
   }
 })

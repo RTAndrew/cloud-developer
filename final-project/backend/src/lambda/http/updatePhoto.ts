@@ -19,10 +19,14 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
 
   const result = await getPhotoById(userId, photoId)
 
-  if (result.Count === 0) {
+  if (result.length === 0) {
     logger.warn(`user ${userId} updating non existing records: ${photoId}`)
     return {
       statusCode: 400,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
       body: JSON.stringify(`Todo not exists.`)
     }
   }
@@ -32,6 +36,10 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
 
   return {
     statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true,
+    },
     body: null
   }
 })

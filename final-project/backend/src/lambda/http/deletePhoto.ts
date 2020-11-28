@@ -15,7 +15,7 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
 
   const result = await getPhotoById(userId, photoId)
 
-  if (result.Count === 0) {
+  if (result.length === 0) {
     logger.warn(`user ${userId} requesting DELETE for non exists photo: ${photoId}`)
     return {
       statusCode: 400,

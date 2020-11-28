@@ -24,7 +24,7 @@ export default class AttachmentsStorage {
             }).promise();
 
             return this.s3Client.getSignedUrl('getObject', {
-                Bucket: process.env.IMAGES_6BUCKET,
+                Bucket: process.env.IMAGES_BUCKET,
                 Key: `${photoId}.png`,
                 Expires: this.signedUrlExpireSeconds
             });

@@ -3,6 +3,6 @@
  */
 export interface UpdatePhotoRequest {
   name: string
-  dueDate: string
-  done: boolean
+  description: string
+  public: string
 }

@@ -29,8 +29,8 @@ export default class PhotosAccess {
         return result.Items as PhotoItem[]
     }
 
-    async getPhotoById(userId: string, photoId: string): Promise<AWS.DynamoDB.QueryOutput> {
-        return await this.docClient.query({
+    async getPhotoById(userId: string, photoId: string): Promise<PhotoItem[]> {
+        const result = await this.docClient.query({
             TableName: this.photosTable,
             KeyConditionExpression: 'userId = :user and photoId = :photo',
             ExpressionAttributeValues: {
@@ -38,6 +38,8 @@ export default class PhotosAccess {
                 ":photo": photoId
             }
         }).promise()
+
+        return result.Items as PhotoItem[]
     }
 
     async createPhoto(photoItem: PhotoItem): Promise<void> {
@@ -54,14 +56,16 @@ export default class PhotosAccess {
                 userId,
                 photoId
             },
-            UpdateExpression: 'SET #name = :n, dueDate = :due, done = :d',
+            UpdateExpression: 'SET #name = :n, #description = :descript, #public = :publi',
             ExpressionAttributeValues: {
                 ":n": photoUpdate.name,
-                ":due": photoUpdate.dueDate,
-                ":d": photoUpdate.done
+                ":descript": photoUpdate.description,
+                ":publi": photoUpdate.public
             },
             ExpressionAttributeNames: {
-                "#name": "name"
+                "#name": "name",
+                "#public": "public",
+                "#description": "description"
             }
         }).promise()
     }

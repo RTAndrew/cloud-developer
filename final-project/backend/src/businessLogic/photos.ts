@@ -21,6 +21,18 @@ export async function getPhotos(userId: string): Promise<PhotoItem[]> {
     return result
 }
 
+export async function getPhotoById(userId: string, photoId: string): Promise<PhotoItem[]> {
+    const result = await photosAcess.getPhotoById(userId, photoId)
+
+    for (const photo of result) {
+        const url = await getAttachmentUrl(photoId)
+
+        if (url)
+            photo.attachmentUrl = url
+    }
+    return result;
+}
+
 export async function createPhoto(userId: string, createPhotoRequest: CreatePhotoRequest): Promise<PhotoItem> {
     const photoId = uuid.v4()
     const createdAt = new Date().toISOString()
@@ -28,7 +40,6 @@ export async function createPhoto(userId: string, createPhotoRequest: CreatePhot
         userId,
         photoId,
         createdAt,
-        done: false,
         ...createPhotoRequest
     }
     await photosAcess.createPhoto(photoItem)
@@ -42,8 +53,4 @@ export async function updatePhoto(userId: string, photoId: string, photoUpdate: 
 
 export async function deletePhoto(userId: string, photoId: string): Promise<void> {
     return await photosAcess.deletePhoto(userId, photoId)
-}
-
-export async function getPhotoById(userId: string, photoId: string): Promise<AWS.DynamoDB.QueryOutput> {
-    return await photosAcess.getPhotoById(userId, photoId)
 }

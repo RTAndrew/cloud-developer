@@ -3,7 +3,7 @@ export interface PhotoItem {
   photoId: string
   createdAt: string
   name: string
-  dueDate: string
-  done: boolean
+  description: string
+  public: string
   attachmentUrl?: string
 }
