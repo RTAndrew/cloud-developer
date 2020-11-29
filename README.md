@@ -28,3 +28,13 @@ The Docker images are available in (make sure you have an account to be able to 
 - https://hub.docker.com/r/andersonlando/udacity-restapi-user
 - https://hub.docker.com/r/andersonlando/reverseproxy
 - https://hub.docker.com/r/andersonlando/udacity-restapi-feed
+
+## Final Project: Serveless Flickr-Like App
+
+This project is based on the idea of the past `Instagram Project on AWS`, where the user can create, edit, delete and upload an image with title and description.
+
+The project can be found in `final-project` folder. The images of the running client are located in `final-project/proof-images`.
+
+Considerations 🔥:
+- If you come to find an error `invalid hooks`, please, just close the warning in the top right corner. The problem is how I badly saved the JWT token in localstorage (because it was a hook, it kept throwing an error).
+- If you come to find a big bluish loading spinner, just enter the url to `localhost:3000`.
