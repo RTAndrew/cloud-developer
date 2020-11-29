@@ -7,6 +7,7 @@ import { CreatePhotoRequest } from '../../requests/CreatePhotoRequest'
 import { createPhoto } from '../../businessLogic/photos'
 import { getUserId } from '../utils'
 import { createLogger } from '../../utils/logger'
+import { getPresignedUrl } from '../../businessLogic/attachmentUrl'
 
 const logger = createLogger('createPhoto')
 
@@ -23,7 +24,8 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
   return {
     statusCode: 201,
     body: JSON.stringify({
-      item: newPhotoItem
+      item: newPhotoItem,
+      uploadUrl: getPresignedUrl(newPhotoItem.photoId)
     })
   }
 })
